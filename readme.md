@@ -5,7 +5,7 @@
 ### Main Route (GET)
 
 ```
-  POST /api/
+ GET /api/
 ```
 
 #### Response
