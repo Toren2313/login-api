@@ -2,9 +2,13 @@ import App from "./Client";
 import MainController from "./routes/MainRouter/MainController";
 import Controller from "./interfaces/Controller";
 
-const controllers: Array<Controller> = [
-    new MainController(),
-]
-const app: App = new App(controllers,1337);
+import MiddleWareController from "./interfaces/MiddleWareController";
+import mainMiddleWare from "./middlewares/MainMiddleWare";
+
+const controllers: Array<Controller> = [new MainController()];
+
+const globalMiddleWares: Array<MiddleWareController> = [new mainMiddleWare()];
+
+const app: App = new App(controllers, globalMiddleWares, 1337);
 
 app.listen();

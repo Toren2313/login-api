@@ -1,19 +1,24 @@
 import express, { Application } from "express";
-import ErrorMiddleware from "./middlewares/ErrorMiddleWare";
+
 import Controller from "./interfaces/Controller";
 
 import config from "./utils/Constants";
+import MiddleWareController from "./interfaces/MiddleWareController";
 
 class App {
-  private express: Application;
-  private port: number = config.port;
+  private readonly express: Application;
+  private readonly port: number = config.port;
 
-  constructor(controllers: Controller[], port: number) {
+  constructor(
+    controllers: Controller[],
+    globalMiddleWares: MiddleWareController[],
+    port: number
+  ) {
     this.express = express();
     this.port = port;
 
-    this.initializeErrorHandling();
     this.initializeControllers(controllers);
+    this.initializeGlobalMiddleWare(globalMiddleWares);
   }
 
   public getApp(): [Application, number] {
@@ -24,18 +29,19 @@ class App {
     controllers.forEach((controller) => {
       this.express.use("/api/", controller.setRoutes());
     });
+    console.log("Controllers initialized");
   }
-  private initializeGlobalMiddleWare(middleWares: string): void {
-    middleWares.trim();
-  }
-
-  private initializeErrorHandling(): void {
-    this.express.use(ErrorMiddleware);
+  private initializeGlobalMiddleWare(
+    middleWares: MiddleWareController[]
+  ): void {
+    middleWares.forEach((middleWare: MiddleWareController) => {
+      this.express.use(middleWare.setGlobalMiddleWares());
+    });
   }
 
   public listen(): void {
-    this.express.listen(config.port, () => {
-      console.log(`Listening on port ${config.port}`);
+    this.express.listen(this.port, () => {
+      console.log(`Listening on port ${this.port}`);
     });
   }
 }

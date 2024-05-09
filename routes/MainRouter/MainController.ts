@@ -9,14 +9,14 @@ class MainController extends Controller {
       path: this.path,
       router: this.router,
       Method: methods.GET,
-      handler: this.mainHandler,
+      handler: this.handler,
       localMiddleware: [],
     },
   ];
   constructor() {
     super();
   }
-  private mainHandler(req: express.Request, res: express.Response) {
+  private handler(req: express.Request, res: express.Response) {
     return res.json({ content: "Hello, World!" });
   }
 }
