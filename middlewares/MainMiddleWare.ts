@@ -1,4 +1,4 @@
-import middleWareController from "../interfaces/MiddleWareController";
+import middleWareController from "../controllers/MiddleWareController";
 import express, { NextFunction } from "express";
 import date from "../utils/Date";
 
@@ -17,9 +17,8 @@ class MainMiddleWare extends middleWareController {
     next: NextFunction
   ) {
     console.log(
-      ` [ EXPRESS API ] [ CALL ] [ Client ip: ${req.socket.remoteAddress} ] [ Called API: ${req.path} ] [ DateTime - ${date}  ]  `
+      ` [ EXPRESS API ] [ CALL ${req.method} ] [ Client ip: ${req.socket.remoteAddress} ] [ Called API: ${req.path} ] [ DateTime - ${date}  ]  `
     );
-    res.json({ content: "Hello, World!" });
     next();
   }
 }

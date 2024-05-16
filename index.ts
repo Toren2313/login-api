@@ -1,8 +1,8 @@
 import App from "./Client";
 import MainController from "./routes/MainRouter/MainController";
-import Controller from "./interfaces/Controller";
+import Controller from "./controllers/Controller";
 
-import MiddleWareController from "./interfaces/MiddleWareController";
+import MiddleWareController from "./controllers/MiddleWareController";
 import mainMiddleWare from "./middlewares/MainMiddleWare";
 
 const controllers: Array<Controller> = [new MainController()];

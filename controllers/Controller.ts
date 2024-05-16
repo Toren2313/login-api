@@ -1,21 +1,5 @@
-import express, { Router } from "express";
-import Methods from "../utils/Methods";
-
-interface IController {
-  path: string;
-  router: Router;
-  Method: Methods;
-  handler(
-    req: express.Request,
-    res: express.Response,
-    next?: express.NextFunction
-  ): void;
-  localMiddleware?: ((
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => void)[];
-}
+import { Router } from "express";
+import { IController } from "../interfaces/IController";
 
 abstract class Controller {
   public router: Router = Router();
@@ -24,33 +8,30 @@ abstract class Controller {
 
   public setRoutes(): Router {
     for (const route of this.routes) {
-      if (route.localMiddleware != undefined) {
+      console.log(route.localMiddleware?.length);
+      if (route.localMiddleware != undefined || route?.localMiddleware != undefined) {
         for (const mw of route.localMiddleware) {
           this.router.use(route.path, mw);
         }
       }
       switch (route.Method) {
-        case "GET": {
+        case "get":
           this.router.get(route.path, route.handler);
           break;
-        }
-        case "POST": {
+        case "post":
           this.router.post(route.path, route.handler);
           break;
-        }
-        case "PUT": {
+        case "put":
           this.router.put(route.path, route.handler);
           break;
-        }
-        case "PATCH": {
+        case "patch":
           this.router.patch(route.path, route.handler);
           break;
-        }
-        case "DELETE": {
+        case "delete":
           this.router.delete(route.path, route.handler);
           break;
-        }
       }
+
     }
     return this.router;
   }

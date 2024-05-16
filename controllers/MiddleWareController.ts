@@ -1,12 +1,5 @@
-import express, { Router } from "express";
-
-interface IMiddleWareController {
-  handler(
-    req: express.Request,
-    res: express.Response,
-    next?: express.NextFunction
-  ): void;
-}
+import { Router } from "express";
+import { IMiddleWareController } from "../interfaces/IMidlleWareController";
 
 abstract class MiddleWareController {
   public router: Router = Router();
@@ -18,6 +11,4 @@ abstract class MiddleWareController {
     return this.router;
   }
 }
-
-export { IMiddleWareController };
 export default MiddleWareController;

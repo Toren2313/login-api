@@ -1,9 +1,9 @@
 import express, { Application } from "express";
 
-import Controller from "./interfaces/Controller";
+import Controller from "./controllers/Controller";
 
 import config from "./utils/Constants";
-import MiddleWareController from "./interfaces/MiddleWareController";
+import MiddleWareController from "./controllers/MiddleWareController";
 
 class App {
   private readonly express: Application;
@@ -24,10 +24,9 @@ class App {
   public getApp(): [Application, number] {
     return [this.express, this.port];
   }
-
   private initializeControllers(controllers: Controller[]): void {
     controllers.forEach((controller) => {
-      this.express.use("/api/", controller.setRoutes());
+      this.express.use(controller.path, controller.setRoutes());
     });
     console.log("Controllers initialized");
   }
@@ -37,6 +36,7 @@ class App {
     middleWares.forEach((middleWare: MiddleWareController) => {
       this.express.use(middleWare.setGlobalMiddleWares());
     });
+    console.log("Middlewares initialized");
   }
 
   public listen(): void {
