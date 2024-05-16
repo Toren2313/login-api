@@ -7,8 +7,10 @@ import Controller from "./controllers/Controller";
 import config from "./utils/Constants";
 import MiddleWareController from "./controllers/MiddleWareController";
 import Methods from "./utils/Methods";
+import Database from "./utils/Database";
 
 class App {
+  private readonly db: Database;
   private readonly express: Application;
   private readonly port: number = config.port;
 
@@ -18,9 +20,11 @@ class App {
     port: number
   ) {
     this.express = express();
+    this.db = Database.getInstance();
     this.port = port;
 
     this.initializeApp();
+    this.db.connectToDatabase();
     this.initializeControllers(controllers);
     this.initializeGlobalMiddleWare(globalMiddleWares);
   }

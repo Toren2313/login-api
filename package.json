@@ -16,6 +16,10 @@
     "@types/cors": "^2.8.17",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.3",
+    "sequelize-typescript": "^2.1.6",
     "tsc-watch": "^6.2.0"
   },
   "devDependencies": {
