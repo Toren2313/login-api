@@ -3,7 +3,7 @@ import MainController from "./routes/MainRouter/MainController";
 import Controller from "./controllers/Controller";
 
 import MiddleWareController from "./controllers/MiddleWareController";
-import mainMiddleWare from "./middlewares/MainMiddleWare";
+import mainMiddleWare from "./middlewares/global/MainMiddleWare";
 
 const controllers: Array<Controller> = [new MainController()];
 

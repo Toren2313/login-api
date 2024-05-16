@@ -1,15 +1,15 @@
-import middleWareController from "../controllers/MiddleWareController";
+import middleWareController from "../../controllers/MiddleWareController";
 import express, { NextFunction } from "express";
-import date from "../utils/Date";
+import date from "../../utils/Date";
 
 class MainMiddleWare extends middleWareController {
-  globalMiddleWares = [
-    {
-      handler: this.handler,
-    },
-  ];
   constructor() {
     super();
+    this.globalMiddleWares = [
+      {
+        handler: this.handler,
+      },
+    ];
   }
   private handler(
     req: express.Request,
