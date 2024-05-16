@@ -7,7 +7,6 @@ import Controller from "./controllers/Controller";
 import config from "./utils/Constants";
 import MiddleWareController from "./controllers/MiddleWareController";
 import Methods from "./utils/Methods";
-import exp from "constants";
 
 class App {
   private readonly express: Application;
