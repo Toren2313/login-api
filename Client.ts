@@ -1,9 +1,13 @@
 import express, { Application } from "express";
+import cors from "cors";
+import bodyParser, { json } from "body-parser";
 
 import Controller from "./controllers/Controller";
 
 import config from "./utils/Constants";
 import MiddleWareController from "./controllers/MiddleWareController";
+import Methods from "./utils/Methods";
+import exp from "constants";
 
 class App {
   private readonly express: Application;
@@ -17,6 +21,7 @@ class App {
     this.express = express();
     this.port = port;
 
+    this.initializeApp();
     this.initializeControllers(controllers);
     this.initializeGlobalMiddleWare(globalMiddleWares);
   }
@@ -37,6 +42,24 @@ class App {
       this.express.use(middleWare.setGlobalMiddleWares());
     });
     console.log("Middlewares initialized");
+  }
+  private initializeApp(): void {
+    this.express.use(
+      cors({
+        origin: "http://localhost:1337",
+        credentials: true,
+        methods: [
+          Methods.GET,
+          Methods.POST,
+          Methods.PUT,
+          Methods.PATCH,
+          Methods.DELETE,
+        ],
+      })
+    );
+    this.express.use(express.static("main"));
+    this.express.use(bodyParser.json());
+    this.express.use(express.json());
   }
 
   public listen(): void {
