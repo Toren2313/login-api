@@ -1,8 +1,10 @@
 import { Sequelize } from "sequelize";
 import config from "./Constants";
+import { resolve } from "path";
+import { rejects } from "assert";
 
 class Database {
-  private sequelize: Sequelize | undefined;
+  private sequelize: Sequelize;
 
   private static Instance: Database;
 
@@ -12,14 +14,7 @@ class Database {
   private password = config.Database.db_password;
   private db = config.Database.db;
 
-  constructor() {}
-
-  static getInstance(): Database {
-    if (this.Instance) return this.Instance;
-    return (this.Instance = new Database());
-  }
-
-  public connectToDatabase(): void {
+  constructor() {
     this.sequelize = new Sequelize({
       host: this.host,
       port: this.port,
@@ -28,14 +23,28 @@ class Database {
       database: this.db,
       dialect: "postgres",
     });
+  }
 
-    this.sequelize
+  static getInstance() {
+    if (Database.Instance) return Database.Instance;
+    return (Database.Instance = new Database());
+  }
+
+  public getSequelize(): Sequelize {
+    if (!this.sequelize) throw new Error("Database not connected");
+    return this.sequelize;
+  }
+
+  public async connectToDatabase(): Promise<void> {
+    await this.sequelize
       .authenticate()
       .then(() => {
         console.log("Database initialized");
+        resolve();
       })
       .catch((error) => {
         console.log(`Something went wrong error: ${error}`);
+        rejects(error);
       });
   }
 }

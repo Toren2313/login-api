@@ -20,21 +20,28 @@ class App {
     port: number
   ) {
     this.express = express();
-    this.db = Database.getInstance();
+    this.db = new Database();
     this.port = port;
-
-    this.initializeApp();
-    this.db.connectToDatabase();
-    this.initializeControllers(controllers);
-    this.initializeGlobalMiddleWare(globalMiddleWares);
+    this.initialize(controllers, globalMiddleWares);
   }
 
   public getApp(): [Application, number] {
     return [this.express, this.port];
   }
+
+  private async initialize(
+    controllers: Controller[],
+    globalMiddleWares: MiddleWareController[]
+  ) {
+    await this.initializePlugins();
+    await this.db.connectToDatabase();
+    await this.initializeControllers(controllers);
+    await this.initializeGlobalMiddleWare(globalMiddleWares);
+  }
+
   private initializeControllers(controllers: Controller[]): void {
     controllers.forEach((controller) => {
-      this.express.use(controller.path, controller.setRoutes());
+      this.express.use(controller.setRoutes());
     });
     console.log("Controllers initialized");
   }
@@ -46,7 +53,7 @@ class App {
     });
     console.log("Middlewares initialized");
   }
-  private initializeApp(): void {
+  private initializePlugins(): void {
     this.express.use(
       cors({
         origin: "http://localhost:1337",
@@ -63,6 +70,7 @@ class App {
     this.express.use(express.static("main"));
     this.express.use(bodyParser.json());
     this.express.use(express.json());
+    this.express.use(express.urlencoded({ extended: true }));
   }
 
   public listen(): void {

@@ -8,8 +8,7 @@ abstract class Controller {
 
   public setRoutes(): Router {
     for (const route of this.routes) {
-      console.log(route.localMiddleware?.length);
-      if (route.localMiddleware != undefined || route?.localMiddleware != undefined) {
+      if (route.localMiddleware != undefined) {
         for (const mw of route.localMiddleware) {
           this.router.use(route.path, mw);
         }
@@ -31,7 +30,6 @@ abstract class Controller {
           this.router.delete(route.path, route.handler);
           break;
       }
-
     }
     return this.router;
   }
