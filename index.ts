@@ -6,10 +6,7 @@ import Controller from "./controllers/Controller";
 import MiddleWareController from "./controllers/MiddleWareController";
 import mainMiddleWare from "./middlewares/global/MainMiddleWare";
 
-const controllers: Array<Controller> = [
-  new MainController(),
-  new AuthenticationController(),
-];
+const controllers: Array<Controller> = [new MainController(), new AuthenticationController()];
 
 const globalMiddleWares: Array<MiddleWareController> = [new mainMiddleWare()];
 

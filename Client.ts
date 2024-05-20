@@ -14,11 +14,7 @@ class App {
   private readonly express: Application;
   private readonly port: number = config.port;
 
-  constructor(
-    controllers: Controller[],
-    globalMiddleWares: MiddleWareController[],
-    port: number
-  ) {
+  constructor(controllers: Controller[], globalMiddleWares: MiddleWareController[], port: number) {
     this.express = express();
     this.db = new Database();
     this.port = port;
@@ -29,10 +25,7 @@ class App {
     return [this.express, this.port];
   }
 
-  private async initialize(
-    controllers: Controller[],
-    globalMiddleWares: MiddleWareController[]
-  ) {
+  private async initialize(controllers: Controller[], globalMiddleWares: MiddleWareController[]) {
     await this.initializePlugins();
     await this.db.connectToDatabase();
     await this.initializeControllers(controllers);
@@ -45,9 +38,7 @@ class App {
     });
     console.log("Controllers initialized");
   }
-  private initializeGlobalMiddleWare(
-    middleWares: MiddleWareController[]
-  ): void {
+  private initializeGlobalMiddleWare(middleWares: MiddleWareController[]): void {
     middleWares.forEach((middleWare: MiddleWareController) => {
       this.express.use(middleWare.setGlobalMiddleWares());
     });
@@ -58,13 +49,7 @@ class App {
       cors({
         origin: "http://localhost:1337",
         credentials: true,
-        methods: [
-          Methods.GET,
-          Methods.POST,
-          Methods.PUT,
-          Methods.PATCH,
-          Methods.DELETE,
-        ],
+        methods: [Methods.GET, Methods.POST, Methods.PUT, Methods.PATCH, Methods.DELETE],
       })
     );
     this.express.use(express.static("main"));

@@ -27,9 +27,7 @@ class AuthenticationController extends Controller {
       updatedAt: new Date(),
     });
 
-    return res
-      .status(HTTPStatusCode.Created)
-      .json({ content: "Successfully created user" });
+    return res.status(HTTPStatusCode.Created).json({ content: "Successfully created user" });
   }
 }
 
