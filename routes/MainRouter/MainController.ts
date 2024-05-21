@@ -12,7 +12,7 @@ class MainController extends Controller {
         path: this.path,
         router: this.router,
         Method: methods.GET,
-        handler: this.handler,
+        handler: this.handler.bind(this),
         localMiddleware: [],
       },
     ];

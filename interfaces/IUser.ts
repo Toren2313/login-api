@@ -1,4 +1,5 @@
 interface IUser {
+  id?: bigint;
   username: string;
   password: string;
   createdAt?: Date;
