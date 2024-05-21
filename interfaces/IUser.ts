@@ -1,7 +1,7 @@
 interface IUser {
   username: string;
   password: string;
-  createdAt: Date;
+  createdAt?: Date;
   updatedAt: Date;
 }
 

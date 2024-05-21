@@ -2,8 +2,7 @@ import { Model, DataTypes } from "sequelize";
 import { IUser } from "../interfaces/IUser";
 import Database from "../utils/Database";
 
-const db = Database.getInstance();
-const sequelize = db.getSequelize();
+const sequelize = Database.getInstance().getSequelize();
 
 class User extends Model<IUser> {}
 User.init(
