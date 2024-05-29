@@ -3,14 +3,20 @@ import methods from "../../utils/Methods";
 import HTTPStatusCode from "../../utils/HttpStatusCode";
 import User from "../../models/User";
 import { Request, Response } from "express";
-import ArgonService from "../../services/argonService";
+import singTypes from "../../utils/singTypes";
+
+import ArgonService from "../../services/ArgonService";
+import JwtService from "../../services/JwtService";
 
 class AuthenticationController extends Controller {
   path = "/auth";
+
   private aService: ArgonService;
+  private jService: JwtService;
   constructor() {
     super();
 
+    this.jService = new JwtService();
     this.aService = new ArgonService();
     this.routes = [
       {
@@ -89,11 +95,17 @@ class AuthenticationController extends Controller {
         content: `login failed`,
       });
 
+    const payload = {
+      id: foundedUser.get().id,
+      username: foundedUser.get().username,
+      createdAt: foundedUser.get().createdAt,
+    };
+
     return res.status(HTTPStatusCode.Accepted).json({
       content: `Succesffuly logged into acount: ${foundedUser?.get().username}`,
       jwt: {
-        refreshToken: "",
-        token: "",
+        refreshToken: await this.jService.sign(payload, singTypes.refresh),
+        token: await this.jService.sign(payload, singTypes.access, "30d"),
       },
     });
   }
