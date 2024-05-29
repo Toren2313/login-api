@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { IController } from "../interfaces/IController";
+import Methods from "../utils/Methods";
 
 abstract class Controller {
   public router: Router = Router();
@@ -13,23 +14,24 @@ abstract class Controller {
           this.router.use(route.path, mw);
         }
       }
-      switch (route.Method) {
-        case "get":
+      const checkRoute: Record<Methods, () => void> = {
+        get: () => {
           this.router.get(route.path, route.handler);
-          break;
-        case "post":
+        },
+        post: () => {
           this.router.post(route.path, route.handler);
-          break;
-        case "put":
-          this.router.put(route.path, route.handler);
-          break;
-        case "patch":
+        },
+        patch: () => {
           this.router.patch(route.path, route.handler);
-          break;
-        case "delete":
+        },
+        put: () => {
+          this.router.put(route.path, route.handler);
+        },
+        delete: () => {
           this.router.delete(route.path, route.handler);
-          break;
-      }
+        },
+      };
+      checkRoute[route.Method]();
     }
     return this.router;
   }

@@ -1,5 +1,5 @@
 import App from "./Client";
-import MainController from "./routes/MainRouter/MainController";
+import MainController from "./routes/Main/MainController";
 import AuthenticationController from "./routes/Authentication/AuthenticationController";
 import Controller from "./controllers/Controller";
 

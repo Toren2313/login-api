@@ -30,8 +30,6 @@ class AuthenticationController extends Controller {
     ];
   }
   private async registerHandler(req: Request, res: Response) {
-    //const aService = new ArgonService();
-
     // dla mnie przyszlego mnie | to jest regex sprawdzajacy czy nie ma znakow ktorych nie mozna kliknac na standardowej klawiaturze
     const normalChars = /^[a-zA-Z0-9\s.,!?@#%&*()\-+=/\\:;"'<>{}\[\]|_~]*$/;
 
@@ -93,7 +91,10 @@ class AuthenticationController extends Controller {
 
     return res.status(HTTPStatusCode.Accepted).json({
       content: `Succesffuly logged into acount: ${foundedUser?.get().username}`,
-      jwt: "json web token",
+      jwt: {
+        refreshToken: "",
+        token: "",
+      },
     });
   }
 }
