@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import Methods from "../utils/Methods";
+import Methods from "../utils/methods";
 
 interface IController {
   path: string;

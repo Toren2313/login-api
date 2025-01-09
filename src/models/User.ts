@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { IUser } from "../interfaces/IUser";
-import Database from "../utils/Database";
+import Database from "../utils/database";
 
 const db = Database.getInstance();
 const sequelize = db.getSequelize();

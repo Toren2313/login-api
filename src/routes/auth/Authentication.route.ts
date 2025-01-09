@@ -1,12 +1,12 @@
-import Controller from "../../controllers/Controller";
-import methods from "../../utils/Methods";
-import HTTPStatusCode from "../../utils/HttpStatusCode";
+import Controller from "../../controllers/controller";
+import methods from "../../utils/methods";
+import HTTPStatusCode from "../../utils/httpStatusCode";
 import User from "../../models/User";
 import { Request, Response } from "express";
 import singTypes from "../../utils/singTypes";
 
 import ArgonService from "../../services/argonService";
-import JwtService from "../../services/JwtService";
+import JwtService from "../../services/jwtService";
 
 class AuthenticationController extends Controller {
   path = "/auth";

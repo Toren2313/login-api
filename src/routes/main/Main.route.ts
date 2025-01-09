@@ -1,7 +1,7 @@
-import Controller from "../../controllers/Controller";
+import Controller from "../../controllers/controller";
 import { Request, Response } from "express";
-import methods from "../../utils/Methods";
-import HTTPStatusCode from "../../utils/HttpStatusCode";
+import methods from "../../utils/methods";
+import HTTPStatusCode from "../../utils/httpStatusCode";
 
 class MainController extends Controller {
   path = "/";

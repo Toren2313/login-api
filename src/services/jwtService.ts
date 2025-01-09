@@ -10,7 +10,7 @@ class JwtService {
       access: () => {
         if (!exp) exp = "30d";
 
-        const accessToken: string = jwt.sign(payload, config.jwt.acces_refresh, {
+        const accessToken: string = jwt.sign(payload, config.jwt.access_refresh, {
           expiresIn: exp,
         });
 

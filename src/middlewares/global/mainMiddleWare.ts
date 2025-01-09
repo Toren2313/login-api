@@ -1,6 +1,6 @@
-import middleWareController from "../../controllers/MiddleWareController";
+import middleWareController from "../../controllers/middleWareController";
 import express, { NextFunction } from "express";
-import date from "../../utils/Date";
+import date from "../../utils/date";
 
 class MainMiddleWare extends middleWareController {
   constructor() {

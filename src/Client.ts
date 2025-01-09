@@ -2,12 +2,12 @@ import express, { Application } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import Controller from "./controllers/Controller";
+import Controller from "./controllers/controller";
 
 import config from "./utils/Constants";
-import MiddleWareController from "./controllers/MiddleWareController";
-import Methods from "./utils/Methods";
-import Database from "./utils/Database";
+import MiddleWareController from "./controllers/middleWareController";
+import Methods from "./utils/methods";
+import Database from "./utils/database";
 
 class App {
   private readonly db: Database;

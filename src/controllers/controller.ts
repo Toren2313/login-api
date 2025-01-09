@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { IController } from "../interfaces/IController";
-import Methods from "../utils/Methods";
+import Methods from "../utils/methods";
 
 abstract class Controller {
   public router: Router = Router();
