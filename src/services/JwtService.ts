@@ -5,7 +5,7 @@ import singTypes from "../utils/singTypes";
 class JwtService {
   constructor() {}
 
-  async sign(payload: Object, type: singTypes, exp?: string): Promise<string> {
+  async sign(payload: object, type: singTypes, exp?: string): Promise<string> {
     const genToken: Record<singTypes, () => string> = {
       access: () => {
         if (!exp) exp = "30d";

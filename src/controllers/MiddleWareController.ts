@@ -3,7 +3,7 @@ import { IMiddleWareController } from "../interfaces/IMidlleWareController";
 
 abstract class MiddleWareController {
   public router: Router = Router();
-  protected globalMiddleWares: Array<IMiddleWareController> = [];
+  protected globalMiddleWares: IMiddleWareController[] = [];
   public setGlobalMiddleWares(): Router {
     for (const globalMw of this.globalMiddleWares) {
       this.router.use(globalMw.handler);

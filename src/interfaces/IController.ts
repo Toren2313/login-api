@@ -6,11 +6,7 @@ interface IController {
   router: Router;
   Method: Methods;
   handler(req: express.Request, res: express.Response, next?: express.NextFunction): void;
-  localMiddleware?: ((
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => void)[];
+  localMiddleware?: ((req: express.Request, res: express.Response, next: express.NextFunction) => void)[];
 }
 
 export { IController };

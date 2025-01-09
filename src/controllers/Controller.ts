@@ -5,11 +5,11 @@ import Methods from "../utils/Methods";
 abstract class Controller {
   public router: Router = Router();
   public abstract path: string;
-  protected routes: Array<IController> = [];
+  protected routes: IController[] = [];
 
   public setRoutes(): Router {
     for (const route of this.routes) {
-      if (route.localMiddleware != undefined) {
+      if (route.localMiddleware !== undefined) {
         for (const mw of route.localMiddleware) {
           this.router.use(route.path, mw);
         }

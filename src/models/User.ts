@@ -13,7 +13,7 @@ User.init(
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
-  { sequelize, modelName: "User" }
+  { sequelize, modelName: "User" },
 );
 
 export default User;

@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import cors from "cors";
-import bodyParser, { json } from "body-parser";
+import bodyParser from "body-parser";
 
 import Controller from "./controllers/Controller";
 
@@ -25,32 +25,32 @@ class App {
     return [this.express, this.port];
   }
 
-  private async initialize(controllers: Controller[], globalMiddleWares: MiddleWareController[]) {
+  private async initialize(controllers: Controller[], globalMiddleWares: MiddleWareController[]): Promise<void> {
     await this.initializePlugins();
     await this.db.connectToDatabase();
     await this.initializeControllers(controllers);
     await this.initializeGlobalMiddleWare(globalMiddleWares);
   }
 
-  private initializeControllers(controllers: Controller[]): void {
+  private async initializeControllers(controllers: Controller[]): Promise<void> {
     controllers.forEach((controller) => {
       this.express.use(controller.setRoutes());
     });
     console.log("Controllers initialized");
   }
-  private initializeGlobalMiddleWare(middleWares: MiddleWareController[]): void {
+  private async initializeGlobalMiddleWare(middleWares: MiddleWareController[]): Promise<void> {
     middleWares.forEach((middleWare: MiddleWareController) => {
       this.express.use(middleWare.setGlobalMiddleWares());
     });
     console.log("Middlewares initialized");
   }
-  private initializePlugins(): void {
+  private async initializePlugins(): Promise<void> {
     this.express.use(
       cors({
         origin: "http://localhost:1337",
         credentials: true,
         methods: [Methods.GET, Methods.POST, Methods.PUT, Methods.PATCH, Methods.DELETE],
-      })
+      }),
     );
     this.express.use(express.static("main"));
     this.express.use(bodyParser.json());

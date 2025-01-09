@@ -11,9 +11,11 @@ class MainMiddleWare extends middleWareController {
       },
     ];
   }
-  private handler(req: express.Request, res: express.Response, next: NextFunction) {
+  private handler(req: express.Request, res: express.Response, next: NextFunction): void {
+    // eslint-disable-next-line max-len
     console.log(
-      ` [ EXPRESS API ] [ CALL ${req.method} ] [ Client ip: ${req.socket.remoteAddress} ] [ Called API: ${req.path} ] [ DateTime - ${date}  ]  `
+      // eslint-disable-next-line max-len
+      ` [ EXPRESS API ] [ CALL ${req.method} ] [ Client ip: ${req.socket.remoteAddress} ] [ Called API: ${req.path} ] [ DateTime - ${date}  ]  `,
     );
     next();
   }

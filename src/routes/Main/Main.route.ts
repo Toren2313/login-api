@@ -1,5 +1,5 @@
 import Controller from "../../controllers/Controller";
-import express from "express";
+import { Request, Response } from "express";
 import methods from "../../utils/Methods";
 import HTTPStatusCode from "../../utils/HttpStatusCode";
 
@@ -17,8 +17,8 @@ class MainController extends Controller {
       },
     ];
   }
-  private handler(req: express.Request, res: express.Response) {
-    return res.json({ content: "Hello, World!" }).status(HTTPStatusCode.Ok);
+  private handler(req: Request, res: Response): Response {
+    return res.status(HTTPStatusCode.Ok).json({ content: "Hello, World!" });
   }
 }
 

@@ -25,7 +25,7 @@ class Database {
     });
   }
 
-  static getInstance() {
+  static getInstance(): Database {
     if (Database.Instance) return Database.Instance;
     return (Database.Instance = new Database());
   }

@@ -5,7 +5,7 @@ import User from "../../models/User";
 import { Request, Response } from "express";
 import singTypes from "../../utils/singTypes";
 
-import ArgonService from "../../services/ArgonService";
+import ArgonService from "../../services/argonService";
 import JwtService from "../../services/JwtService";
 
 class AuthenticationController extends Controller {
@@ -35,16 +35,16 @@ class AuthenticationController extends Controller {
       },
     ];
   }
-  private async registerHandler(req: Request, res: Response) {
+  private async registerHandler(req: Request, res: Response): Promise<Response> {
     // dla mnie przyszlego mnie | to jest regex sprawdzajacy czy nie ma znakow ktorych nie mozna kliknac na standardowej klawiaturze
-    const normalChars = /^[a-zA-Z0-9\s.,!?@#%&*()\-+=/\\:;"'<>{}\[\]|_~]*$/;
+    const normalChars = /^[a-zA-Z0-9\s.,!?@#%&*()\-+=/\\:;"'<>{}[\]|_~]*$/;
 
     const { username, password } = req.body;
 
-    const boolUsername = !normalChars.test(username) ? true : false;
-    const boolPassword = !normalChars.test(password) ? true : false;
+    const boolUsername = !normalChars.test(username);
+    const boolPassword = !normalChars.test(password);
 
-    if (boolUsername == true || boolPassword == true)
+    if (boolUsername === true || boolPassword === true)
       return res
         .status(HTTPStatusCode.BadRequest)
         .json({ content: "In username you can use only standard keyboard characters" });
@@ -52,7 +52,7 @@ class AuthenticationController extends Controller {
     if (password.length < 5 || username.length < 5 || password.length > 32 || username.length > 32)
       return res
         .status(HTTPStatusCode.BadRequest)
-        .json({ content: `min password & username length - 5 max length - 32` });
+        .json({ content: "min password & username length - 5 max length - 32" });
 
     const hashPass = await this.aService.hash(password);
 
@@ -66,33 +66,26 @@ class AuthenticationController extends Controller {
         return res.status(HTTPStatusCode.Created).json({ content: "Successfully created user" });
       })
       .catch((error) => {
-        return res
-          .status(HTTPStatusCode.InternalServerError)
-          .json({ content: `Internal Server Error: ${error}` });
+        return res.status(HTTPStatusCode.InternalServerError).json({ content: `Internal Server Error: ${error}` });
       });
+    return res.status(HTTPStatusCode.InternalServerError).json({ content: "Something went wrong" });
   }
-  private async loginHander(req: Request, res: Response) {
+  private async loginHander(req: Request, res: Response): Promise<Response> {
     const { username, password } = req.body;
 
     const foundedUser = await User.findOne({ where: { username: username } });
 
-    if (!username || !password)
-      return res.status(HTTPStatusCode.BadRequest).json({ content: "invalid data" });
+    if (!username || !password) return res.status(HTTPStatusCode.BadRequest).json({ content: "invalid data" });
 
-    if (!foundedUser)
-      return res.status(HTTPStatusCode.NotFound).json({ content: "user not found" });
+    if (!foundedUser) return res.status(HTTPStatusCode.NotFound).json({ content: "user not found" });
 
-    let logged = await this.aService
-      .validate(foundedUser.get().password, password)
-      .catch((error) => {
-        return res
-          .status(HTTPStatusCode.InternalServerError)
-          .json({ content: `Internal Server Error: ${error}` });
-      });
+    const logged = await this.aService.validate(foundedUser.get().password, password).catch((error) => {
+      return res.status(HTTPStatusCode.InternalServerError).json({ content: `Internal Server Error: ${error}` });
+    });
 
     if (!logged)
       return res.status(HTTPStatusCode.Unauthorized).json({
-        content: `login failed`,
+        content: "login failed",
       });
 
     const payload = {
