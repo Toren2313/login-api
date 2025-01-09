@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 
 import Controller from "./controllers/controller";
 
-import config from "./utils/Constants";
+import validateEnv from "./utils/validateEnv";
 import MiddleWareController from "./controllers/middleWareController";
 import Methods from "./utils/methods";
 import Database from "./utils/database";
@@ -12,7 +12,7 @@ import Database from "./utils/database";
 class App {
   private readonly db: Database;
   private readonly express: Application;
-  private readonly port: number = config.port;
+  private readonly port: number = process.env.PORT;
 
   constructor(controllers: Controller[], globalMiddleWares: MiddleWareController[], port: number) {
     this.express = express();
@@ -26,6 +26,7 @@ class App {
   }
 
   private async initialize(controllers: Controller[], globalMiddleWares: MiddleWareController[]): Promise<void> {
+    validateEnv();
     await this.initializePlugins();
     await this.db.connectToDatabase();
     await this.initializeControllers(controllers);
