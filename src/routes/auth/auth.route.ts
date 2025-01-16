@@ -95,7 +95,7 @@ class AuthenticationController extends Controller {
     };
 
     return res.status(HTTPStatusCode.Accepted).json({
-      content: `Succesffuly logged into acount: ${foundedUser?.get().username}`,
+      content: `Successfully logged into acount: ${foundedUser?.get().username}`,
       jwt: {
         refreshToken: await this.jService.sign(payload, singTypes.refresh),
         token: await this.jService.sign(payload, singTypes.access, "30d"),
