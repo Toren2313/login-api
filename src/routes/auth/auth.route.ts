@@ -76,7 +76,6 @@ class AuthenticationController extends Controller {
     const foundedUser = await User.findOne({ where: { username: username } });
 
     if (!username || !password) return res.status(HTTPStatusCode.BadRequest).json({ content: "invalid data" });
-
     if (!foundedUser) return res.status(HTTPStatusCode.NotFound).json({ content: "user not found" });
 
     const logged = await this.aService.validate(foundedUser.get().password, password).catch((error) => {
